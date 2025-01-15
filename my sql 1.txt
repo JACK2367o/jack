@@ -1,0 +1,45 @@
+CREATE TABLE Patient (
+    Pno VARCHAR(10) PRIMARY KEY,
+    Pname VARCHAR(100),
+    Docno VARCHAR(10),
+    Date_adm DATE,
+    Charges DECIMAL(10, 2));
+
+
+
+INSERT INTO Patient (Pno, Pname, Docno, Date_adm, Charges)
+VALUES
+('P001', 'Vima Jani', 'D201', '2011-10-11', 20000.00),
+('P002', 'Isha Roma', 'D506', '2011-12-12', 50000.00),
+('P003', 'Vina Verma', 'D201', '2011-09-03', 15000.00),
+('P004', 'Rita Sharma', 'D506', '2011-08-05', 18000.00),
+('P005', 'Shiv Roy', 'D210', '2011-08-05', 20000.00);
+
+b) Count the number of patients belonging to doctor no D201
+SELECT COUNT(*) AS Number_of_Patients
+FROM Patient
+WHERE Docno = 'D201';
+
+c) Display the name of the patient paying the highest charge
+SELECT Pname
+FROM Patient
+WHERE Charges = (SELECT MAX(Charges) FROM Patient);
+
+d) Display Pno and the name of the patient in descending order of date of admission
+SELECT Pno, Pname
+FROM Patient
+ORDER BY Date_adm DESC;
+
+e) Display the last name of patients from Pname with date of admission
+    SUBSTRING_INDEX(Pname, ' ', -1) AS Last_Name,
+    Date_adm
+FROM Patient;
+
+f) Display the patients' details with charges converted to whole numbers
+SELECT Pno, Pname, Docno, Date_adm, ROUND(Charges) AS Charges
+FROM Patient;
+
+g) Display the details of the patient paying the minimum charge
+SELECT *
+FROM Patient
+WHERE Charges = (SELECT MIN(Charges) FROM Patient);
